@@ -54,9 +54,17 @@
     body.appendChild(el("p", { class: "episode__desc" }, ep.description));
 
     const action = el("div", { class: "episode__action" });
-    const link = (ep.link || "").trim() || fallback;
-    if (ep.status === "out" && link) {
-      action.appendChild(el("a", { href: link, class: "btn btn--small btn--primary", target: "_blank", rel: "noopener" }, "Listen"));
+    const epLinks = [
+      { url: (ep.spotify || "").trim(), label: "Spotify", cls: "btn btn--small btn--primary" },
+      { url: (ep.apple || "").trim(),   label: "Apple Podcasts", cls: "btn btn--small" }
+    ].filter(function (l) { return l.url; });
+    if (ep.status === "out" && epLinks.length) {
+      epLinks.forEach(function (l) {
+        action.appendChild(el("a", { href: l.url, class: l.cls, target: "_blank", rel: "noopener",
+          "aria-label": "Listen to episode " + ep.number + " on " + l.label }, l.label));
+      });
+    } else if (ep.status === "out" && fallback) {
+      action.appendChild(el("a", { href: fallback, class: "btn btn--small btn--primary", target: "_blank", rel: "noopener" }, "Listen"));
     } else if (ep.status === "out") {
       action.appendChild(el("span", { class: "badge badge--out" }, "Out now"));
     } else {

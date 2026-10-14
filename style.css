@@ -200,6 +200,8 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; margin: 0; }
 
 .episode__desc { margin: 8px 0 14px; color: #c9d3e1; max-width: 46em; }
 
+.episode__action { display: flex; flex-wrap: wrap; gap: 10px; }
+
 .badge {
   display: inline-block;
   padding: 6px 12px;
